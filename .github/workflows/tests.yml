@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         push_all_refs:
-          - true
+          # - true
           - false
     steps:
       - uses: actions/checkout@v2
@@ -31,3 +31,4 @@ jobs:
             ${{ secrets.GITLAB__SSH_PRIVATE_KEY }}
           GIT_SSH_NO_VERIFY_HOST: true
           PUSH_ALL_REFS: ${{ matrix.push_all_refs }}
+          GIT_PUSH_ARGS: "--force --prune"
