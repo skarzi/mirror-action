@@ -3,7 +3,7 @@ name: test mirror-action
 'on':
   push:
     branches:
-      - master
+      - skarzi-master
     tags:
       - '**'
   workflow_dispatch:
@@ -15,8 +15,8 @@ jobs:
     strategy:
       matrix:
         push_all_refs:
-          - true
           - false
+          - true
     steps:
       - uses: actions/checkout@v2
         with:
