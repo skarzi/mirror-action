@@ -1,0 +1,33 @@
+---
+name: test mirror-action
+'on':
+  push:
+    branches:
+      - master
+    tags:
+      - '**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        push_all_refs:
+          - true
+          - false
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: debug `env`
+        run: echo "GITHUB_REF=${GITHUB_REF}"
+      - name: mirror to gitlab
+        uses: skarzi/mirror-action@master
+        with:
+          REMOTE: git@gitlab.com:skarzi/mirror-action.git
+          GIT_SSH_PRIVATE_KEY: >-
+            ${{ secrets.GITLAB__SSH_PRIVATE_KEY }}
+          GIT_SSH_NO_VERIFY_HOST: true
+          PUSH_ALL_REFS: ${{ matrix.push_all_refs }}
